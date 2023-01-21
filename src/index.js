@@ -37,8 +37,8 @@ io.on('connection', (socket) => {
 
         socket.join(user.room)
 
-        socket.emit('message', generateMessage('Admin', 'Welkome!'))
-        socket.broadcast.to(user.room).emit('message', generateMessage('Admin', `${user.username} has joined!`))
+        socket.emit('message', generateMessage('Admin', 'Bine ai venit!'))
+        socket.broadcast.to(user.room).emit('message', generateMessage('Admin', `${user.username} s-a alăturat conversației!`))
         io.to(user.room).emit('roomData', {
             room: user.room,
             users: getUsersInRoom(user.room)
@@ -66,10 +66,10 @@ io.on('connection', (socket) => {
     })
 
     socket.on('disconnect', () => {
-        const user = removeUser.apply(socket.id)
+        const user = removeUser(socket.id)
 
        if(user){
-        io.to(user.room).emit('message', generateMessage('Admin',`${user.username} has left!`))
+        io.to(user.room).emit('message', generateMessage('Admin',`${user.username} a plecat!`))
         io.to(user.room).emit('roomData', {
             room: user.room,
             users: getUsersInRoom(user.room)
