@@ -18,21 +18,21 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
 
 //Events server to client:
-        //socket.emit -> sends an event to a specific client, 
-        //io.exit -> sends an event to every connected cient, 
-        //socket.broadcast.emit -> sends an event to every connected client except this user,
-        //io.to.emit -> emits an event to everybody in a specific room
-        //socket.broadcast.to.emit -> sends an event to every connected client except this user, but it's limiting it to a specific chat room
+//socket.emit -> sends an event to a specific client, 
+//io.exit -> sends an event to every connected cient, 
+//socket.broadcast.emit -> sends an event to every connected client except this user,
+//io.to.emit -> emits an event to everybody in a specific room
+//socket.broadcast.to.emit -> sends an event to every connected client except this user, but it's limiting it to a specific chat room
 
 
 io.on('connection', (socket) => {
     console.log('New WebSocket connection')
 
     socket.on('join', (options, callback) => {
-        const { error, user } = addUser({ id: socket.id, ...options})
+        const { error, user } = addUser({ id: socket.id, ...options })
 
         if (error) {
-           return callback(error)
+            return callback(error)
         }
 
         socket.join(user.room)
@@ -68,13 +68,13 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         const user = removeUser(socket.id)
 
-       if(user){
-        io.to(user.room).emit('message', generateMessage('Admin',`${user.username} a plecat!`))
-        io.to(user.room).emit('roomData', {
-            room: user.room,
-            users: getUsersInRoom(user.room)
-        })
-       } 
+        if (user) {
+            io.to(user.room).emit('message', generateMessage('Admin', `${user.username} a plecat!`))
+            io.to(user.room).emit('roomData', {
+                room: user.room,
+                users: getUsersInRoom(user.room)
+            })
+        }
     })
 })
 

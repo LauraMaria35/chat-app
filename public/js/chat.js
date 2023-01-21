@@ -1,5 +1,6 @@
 const socket = io()
 
+// Elements
 const $messageForm = document.querySelector('#message-form')
 const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')
@@ -68,21 +69,21 @@ socket.on('roomData', ({ room, users }) => {
 
 $messageForm.addEventListener('submit', (e) => {
     e.preventDefault()
-    if ($messageFormInput.value === '') {
-        return console.log('Write something first!')
-    }
+    
     $messageFormButton.setAttribute('disabled', 'disabled')
 
     //disable
     const message = e.target.elements.message.value
+
     socket.emit('sendMessage', message, (error) => {
         $messageFormButton.removeAttribute('disabled')
         $messageFormInput.value = ''
         $messageFormInput.focus()
-        //enable    
+         
         if (error) {
             return console.log(error)
         }
+
         console.log('Message delivered!')
     })
 

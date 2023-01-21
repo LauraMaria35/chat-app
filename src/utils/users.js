@@ -30,7 +30,7 @@ const addUser = ({ id, username, room }) => {
 
     const user = { id, username, room }
     users.push(user)
-    return { user }
+    return {user}
 }
 
 const removeUser = (id) => {
@@ -51,9 +51,6 @@ const getUsersInRoom = (room) => {
     return users.filter((user) => user.room === room)
     
 }
-
-const user = getUsersInRoom('Design')
-console.log(user)
 
 module.exports = {
     addUser,
